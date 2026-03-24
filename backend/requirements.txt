@@ -1,13 +1,29 @@
+# Core FastAPI and ASGI
 fastapi==0.115.11
 uvicorn==0.34.0
+
+# Database and ORM
 sqlalchemy==2.0.39
 asyncpg==0.31.0
+aiosqlite==0.22.1
+
+# Data Validation and Settings
 pydantic==2.9.2
 pydantic-settings==2.10.1
-python-multipart==0.0.20
-python-jose==3.5.0
+email-validator==2.2.0
+
+# Authentication and Security
 PyJWT==2.10.1
+python-jose==3.5.0
 passlib==1.7.4
 bcrypt==4.3.0
+
+# HTTP and Form Data
+python-multipart==0.0.20
+httpx==0.28.1
+
+# Environment and Configuration
 python-dotenv==1.1.1
-aiosqlite==0.22.1
+
+# Additional utilities
+uuid==1.30
