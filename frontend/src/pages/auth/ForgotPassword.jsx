@@ -1,0 +1,125 @@
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import api from "../../services/api"
+
+export default function ForgotPassword() {
+  const [email, setEmail] = useState("")
+  const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      await api.post("/auth/forgot-password", { email })
+    } catch (error) {
+  console.error("Forgot password request failed:", error)
+}
+    finally {
+      setLoading(false)
+      setSent(true)
+    }
+  }
+
+  return (
+    <div style={styles.bg}>
+      <div style={styles.card}>
+        <div style={styles.logo}>
+          <div style={styles.logoIcon}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L8 7H4l4 3-1.5 5L12 12l5.5 3L16 10l4-3h-4L12 2z" fill="#e8ffd0"/>
+              <rect x="10" y="17" width="4" height="5" rx="1" fill="#e8ffd0"/>
+              <path d="M7 19h10" stroke="#e8ffd0" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div style={styles.logoText}>Pac-Bot</div>
+            <div style={styles.logoSub}>SMART FARM OS</div>
+          </div>
+        </div>
+
+        {!sent ? (
+          <>
+            <Link to="/login" style={styles.backBtn}>← Back to login</Link>
+            <h1 style={styles.heading}>Reset password</h1>
+            <p style={styles.subtitle}>Enter your email and we'll send you a reset link.</p>
+            <form onSubmit={handleSubmit}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Email address</label>
+                <input
+                  type="email" placeholder="farmer@pacbot.io" style={styles.input}
+                  value={email} onChange={(e) => setEmail(e.target.value)} required
+                />
+              </div>
+              <button type="submit" style={styles.btnPrimary} disabled={loading}>
+                {loading ? "Sending..." : "Send reset link"}
+              </button>
+            </form>
+          </>
+        ) : (
+          <div style={{ textAlign: "center", padding: "10px 0" }}>
+            <div style={styles.successIcon}>
+              <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5" stroke="#80e040" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <h1 style={styles.heading}>Check your inbox</h1>
+            <p style={styles.subtitle}>We've sent a reset link. It expires in 15 minutes.</p>
+            <Link to="/login" style={{ ...styles.btnPrimary, display: "block", textAlign: "center", textDecoration: "none", lineHeight: "48px", marginTop: "20px" }}>
+              Back to login
+            </Link>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+const styles = {
+  bg: {
+    minHeight: "100vh",
+    background: "linear-gradient(160deg, #0a1a0b 0%, #1a3a10 40%, #0d2a0e 100%)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    fontFamily: "'DM Sans', sans-serif",
+  },
+  card: {
+    width: "420px", background: "rgba(8, 20, 8, 0.85)",
+    border: "1px solid rgba(100, 180, 60, 0.2)",
+    borderRadius: "24px", padding: "44px 40px 40px",
+  },
+  logo: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "28px" },
+  logoIcon: {
+    width: "40px", height: "40px",
+    background: "linear-gradient(135deg, #4a9a20 0%, #7cd040 100%)",
+    borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center",
+  },
+  logoText: { fontSize: "22px", fontWeight: "600", color: "#d4f0a0" },
+  logoSub: { fontSize: "11px", color: "rgba(150,220,80,0.5)", letterSpacing: "2px" },
+  backBtn: { display: "inline-block", color: "rgba(130,200,60,0.6)", fontSize: "13px", textDecoration: "none", marginBottom: "16px" },
+  heading: { fontSize: "26px", fontWeight: "500", color: "#e8f5d0", marginBottom: "6px" },
+  subtitle: { fontSize: "13px", color: "rgba(160,210,100,0.55)", marginBottom: "28px" },
+  formGroup: { marginBottom: "16px" },
+  label: {
+    display: "block", fontSize: "12px", fontWeight: "500",
+    color: "rgba(180,230,100,0.7)", letterSpacing: "0.8px",
+    textTransform: "uppercase", marginBottom: "6px",
+  },
+  input: {
+    width: "100%", height: "46px", background: "rgba(20, 50, 15, 0.6)",
+    border: "1px solid rgba(80, 150, 40, 0.25)", borderRadius: "10px",
+    color: "#d8f0b0", fontSize: "14px", padding: "0 14px",
+    outline: "none", boxSizing: "border-box", fontFamily: "inherit",
+  },
+  btnPrimary: {
+    width: "100%", height: "48px",
+    background: "linear-gradient(135deg, #3a8a18 0%, #5db82e 100%)",
+    border: "none", borderRadius: "12px", color: "#e8ffd0",
+    fontSize: "15px", fontWeight: "500", cursor: "pointer",
+  },
+  successIcon: {
+    width: "64px", height: "64px",
+    background: "rgba(50,120,20,0.2)", border: "2px solid rgba(80,180,40,0.4)",
+    borderRadius: "50%", display: "flex", alignItems: "center",
+    justifyContent: "center", margin: "0 auto 20px",
+  },
+}
