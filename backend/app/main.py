@@ -14,6 +14,8 @@ app = FastAPI(title="Pac-Bot API", version="1.0.0", lifespan=lifespan)
 
 allowed_origins = [
     "http://localhost:5173",
+    "https://frontend-ga4lz6eqz-yaswanthsais-projects.vercel.app",
+    "https://frontend-flame-nu-35.vercel.app",
     os.getenv("FRONTEND_URL", "http://localhost:5173"),
 ]
 
