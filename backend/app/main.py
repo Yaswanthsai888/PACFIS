@@ -27,6 +27,10 @@ def is_allowed_origin(origin: str) -> bool:
     if origin.endswith(".vercel.app"):
         return True
     
+    # Allow all Netlify domains
+    if origin.endswith(".netlify.app"):
+        return True
+    
     # Allow specific domains from environment
     allowed_env = os.getenv("FRONTEND_URL", "")
     if allowed_env and origin == allowed_env:
